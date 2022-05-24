@@ -1,0 +1,62 @@
+#include<cstdio>
+#include<iostream>
+#include<algorithm>
+#include<cstring>
+using namespace std;
+const int Maxn=1e4+10;
+const int Maxm=15;
+int a[Maxm],b[Maxn];
+int c[Maxn],id[Maxn];
+char g[Maxm][Maxn];
+int n,m;
+inline int read()
+{
+	int s=0,w=1;
+	char ch=getchar();
+	while(ch<'0'||ch>'9'){if(ch=='-')w=-1;ch=getchar();}
+	while(ch>='0' && ch<='9')s=(s<<3)+(s<<1)+(ch^48),ch=getchar();
+	return s*w;
+}
+inline bool cmp(int x,int y)
+{
+	return b[x]<b[y];
+}
+int main()
+{
+	// freopen("in.txt","r",stdin);
+	int T=read();
+	while(T--)
+	{
+		n=read(),m=read();
+		for(int i=1;i<=n;++i)
+		a[i]=read();
+		for(int i=1;i<=n;++i)
+		scanf("%s",g[i]+1);
+		int ans=-1;
+		for(int s=0;s<(1<<n);++s)
+		{
+			int tot=0;
+			for(int i=1;i<=m;++i)
+			b[i]=0,c[i]=i;
+			for(int i=1;i<=n;++i)
+			{
+				int opt=(s>>(i-1))&1;
+				if(!opt)opt=-1;
+				tot-=a[i]*opt;
+				for(int j=1;j<=m;++j)
+				if(g[i][j]=='1')b[j]+=opt;
+			}
+			sort(c+1,c+1+m,cmp);
+			for(int i=1;i<=m;++i)
+			tot+=i*b[c[i]];
+			if(tot<=ans)continue;
+			ans=tot;
+			for(int i=1;i<=m;++i)
+			id[c[i]]=i;
+		}
+		for(int i=1;i<=m;++i)
+		printf("%d ",id[i]);
+		putchar('\n');
+	}
+	return 0;
+}
