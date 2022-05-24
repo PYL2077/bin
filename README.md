@@ -1,2 +1,3 @@
 # bin
 Hello world
+awesome
